@@ -59,6 +59,12 @@
 #include "crypto.h"
 #include "cta.h"
 
+#include "global.h"
+#include "received.h"
+#include "identified.h"
+#include "keyboard.h"
+#include "selection.h"
+
 static const char* TAG = "MAIN";
 
 static void ui_start(void);
@@ -123,6 +129,11 @@ static void ui_start(void){
     that read/write to the peripheral registers and displays the data from that peripheral.
     */
     display_home_tab(tab_view);
+    display_user_selection_tab(tab_view, core2forAWS_obj);    // index 1
+    display_keyboard_tab(tab_view, core2forAWS_obj);    // index 2
+    display_identified_tab(tab_view, core2forAWS_obj);  // index 3
+    display_received_tab(tab_view, core2forAWS_obj);    //  // index 4
+   
     display_clock_tab(tab_view, core2forAWS_obj);
     display_mpu_tab(tab_view);
     display_microphone_tab(tab_view);
