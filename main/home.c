@@ -39,10 +39,12 @@
 
 static const char* TAG = HOME_TAB_NAME;
 static void start_smell_event_handler(lv_obj_t* slider, lv_event_t event);
+lv_obj_t* tabview;
 
 void display_home_tab(lv_obj_t* tv){
     xSemaphoreTake(xGuiSemaphore, portMAX_DELAY);   // Takes (blocks) the xGuiSemaphore mutex from being read/written by another task.
     
+    tabview = tv;
     lv_obj_t* home_tab = lv_tabview_add_tab(tv, HOME_TAB_NAME);   // Create a tab
 
     /* Create the title within the tab */
@@ -86,6 +88,9 @@ void display_home_tab(lv_obj_t* tv){
     ESP_LOGI(TAG, "\n\n Ellie smelly start page.\n\n");
 }
 static void start_smell_event_handler(lv_obj_t* obj, lv_event_t event){
-          
-    ESP_LOGI(TAG, "Home Screen");
+    // Sleep
+    // Collect sensor data
+
+    // Move to user selection screen
+    lv_tabview_set_tab_act(tabview, 1, LV_ANIM_OFF); 
 }
