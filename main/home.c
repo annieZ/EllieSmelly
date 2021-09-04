@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -39,10 +40,14 @@
 
 static const char* TAG = HOME_TAB_NAME;
 static void start_smell_event_handler(lv_obj_t* slider, lv_event_t event);
+lv_obj_t* tabview;
+lv_obj_t* startOver_btn;
+lv_obj_t* startSmelling_label;
 
 void display_home_tab(lv_obj_t* tv){
     xSemaphoreTake(xGuiSemaphore, portMAX_DELAY);   // Takes (blocks) the xGuiSemaphore mutex from being read/written by another task.
     
+    tabview = tv;
     lv_obj_t* home_tab = lv_tabview_add_tab(tv, HOME_TAB_NAME);   // Create a tab
 
     /* Create the title within the tab */
@@ -71,13 +76,13 @@ void display_home_tab(lv_obj_t* tv){
     lv_style_set_pad_left(&btn_style, LV_STATE_DEFAULT, 12);
     lv_style_set_pad_right(&btn_style, LV_STATE_DEFAULT, 12);
 
-    lv_obj_t* startOver_btn = lv_btn_create(home_tab, NULL);
-    lv_obj_set_size(startOver_btn, 100, 38);
+    startOver_btn = lv_btn_create(home_tab, NULL);
+    lv_obj_set_size(startOver_btn, 150, 38);
     lv_obj_set_event_cb(startOver_btn, start_smell_event_handler);
     lv_obj_align(startOver_btn, home_tab, LV_ALIGN_IN_BOTTOM_RIGHT, -20, -14);
-    lv_btn_set_state(startOver_btn, LV_BTN_STATE_CHECKED_PRESSED);
+    lv_btn_set_state(startOver_btn, LV_BTN_STATE_CHECKED_RELEASED);
 
-    lv_obj_t* startSmelling_label = lv_label_create(startOver_btn, NULL);
+    startSmelling_label = lv_label_create(startOver_btn, NULL);
     lv_label_set_static_text(startSmelling_label, "Start");
     
 
@@ -86,6 +91,9 @@ void display_home_tab(lv_obj_t* tv){
     ESP_LOGI(TAG, "\n\n Ellie smelly start page.\n\n");
 }
 static void start_smell_event_handler(lv_obj_t* obj, lv_event_t event){
-          
-    ESP_LOGI(TAG, "Home Screen");
+  
+    // Collect sensor data
+
+    // Move to user selection screen
+    lv_tabview_set_tab_act(tabview, 1, LV_ANIM_OFF); 
 }

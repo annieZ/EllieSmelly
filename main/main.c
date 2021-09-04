@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -106,7 +107,7 @@ static void ui_start(void){
     */
     vTaskDelay(pdMS_TO_TICKS(1500)); // FreeRTOS scheduler block execution for 1.5 seconds to keep showing the Powered by AWS logo.
     
-    xTaskCreatePinnedToCore(sound_task, "soundTask", 4096 * 2, NULL, 3, NULL, 1);
+   // xTaskCreatePinnedToCore(sound_task, "soundTask", 4096 * 2, NULL, 3, NULL, 1);
     
     xSemaphoreTake(xGuiSemaphore, portMAX_DELAY);   // Takes (blocks) the xGuiSemaphore mutex from being read/written by another task.
     lv_obj_clean(opener_scr);   // Clear the aws_img_obj and remove from memory space. Currently no objects exist on the screen.
