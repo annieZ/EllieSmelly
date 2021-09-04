@@ -49,23 +49,23 @@ void display_keyboard_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
 
     /* Create the main body object and set background within the tab*/
     static lv_style_t bg_style;
-    lv_obj_t* power_bg = lv_obj_create(keyboard_tab, NULL);
-    lv_obj_align(power_bg, NULL, LV_ALIGN_IN_TOP_LEFT, 16, 36);
-    lv_obj_set_size(power_bg, 290, 190);
-    lv_obj_set_click(power_bg, false);
+    lv_obj_t* kb_bg = lv_obj_create(keyboard_tab, NULL);
+    lv_obj_align(kb_bg, NULL, LV_ALIGN_IN_TOP_LEFT, 16, 36);
+    lv_obj_set_size(kb_bg, 290, 200);
+    lv_obj_set_click(kb_bg, false);
     lv_style_init(&bg_style);
     lv_style_set_bg_color(&bg_style, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-    lv_obj_add_style(power_bg, LV_OBJ_PART_MAIN, &bg_style);
+    lv_obj_add_style(kb_bg, LV_OBJ_PART_MAIN, &bg_style);
 
     /* Create the title within the main body object */
     static lv_style_t title_style;
     lv_style_init(&title_style);
     lv_style_set_text_font(&title_style, LV_STATE_DEFAULT, LV_THEME_DEFAULT_FONT_TITLE);
     lv_style_set_text_color(&title_style, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-    lv_obj_t* tab_title_label = lv_label_create(power_bg, NULL);
+    lv_obj_t* tab_title_label = lv_label_create(kb_bg, NULL);
     lv_obj_add_style(tab_title_label, LV_OBJ_PART_MAIN, &title_style);
     lv_label_set_static_text(tab_title_label, "What do you think this smell is?");
-    lv_obj_align(tab_title_label, power_bg, LV_ALIGN_IN_TOP_MID, 0, 10);
+    lv_obj_align(tab_title_label, kb_bg, LV_ALIGN_IN_TOP_MID, 0, 10);
 
     /* Add Keyoard */
 
@@ -74,11 +74,11 @@ void display_keyboard_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
     ta  = lv_textarea_create(keyboard_tab, NULL);
     lv_textarea_set_one_line(ta, true);
     lv_textarea_set_max_length(ta, 20);
-    lv_obj_align(ta, tab_title_label, LV_ALIGN_CENTER, 0 , 10);
+    lv_obj_align(ta, tab_title_label, LV_ALIGN_CENTER, 0 , 20);
     lv_obj_set_event_cb(ta, ta_event_cb);
     lv_textarea_set_text(ta, "");
    
-    //kb_create();
+    kb_create();
 
   
     xSemaphoreGive(xGuiSemaphore);
@@ -98,7 +98,7 @@ static void kb_event_cb(lv_obj_t * keyboard, lv_event_t e)
     }
     if(e == LV_EVENT_APPLY) {
         // Call back end server and then display received  
-        const char * inputStr = lv_event_get_data(); 
+        const char * inputStr = lv_keyboard_get_textarea(ta); 
         if(inputStr != NULL){
              ESP_LOGI(TAG, "\n\n Read %s: ", inputStr);
             lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);

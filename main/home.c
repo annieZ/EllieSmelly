@@ -41,6 +41,8 @@
 static const char* TAG = HOME_TAB_NAME;
 static void start_smell_event_handler(lv_obj_t* slider, lv_event_t event);
 lv_obj_t* tabview;
+lv_obj_t* startOver_btn;
+lv_obj_t* startSmelling_label;
 
 void display_home_tab(lv_obj_t* tv){
     xSemaphoreTake(xGuiSemaphore, portMAX_DELAY);   // Takes (blocks) the xGuiSemaphore mutex from being read/written by another task.
@@ -62,7 +64,7 @@ void display_home_tab(lv_obj_t* tv){
 
     lv_obj_t* body_label = lv_label_create(home_tab, NULL);
     lv_label_set_long_mode(body_label, LV_LABEL_LONG_BREAK);
-    lv_label_set_static_text(body_label, "I can help identify a smell or you can help me build a collection of smells for other to use as  a reference. \n\n Tap to start smelling, I will take 30 seconds to smell around :)");
+    lv_label_set_static_text(body_label, "I can help identify a smell or you can help me build a collection of smells for other to use as  a reference. \n\n Tap to start smelling");
     lv_obj_set_width(body_label, 280);
     lv_obj_align(body_label, home_tab, LV_ALIGN_CENTER, 0 , 10);
 
@@ -74,13 +76,13 @@ void display_home_tab(lv_obj_t* tv){
     lv_style_set_pad_left(&btn_style, LV_STATE_DEFAULT, 12);
     lv_style_set_pad_right(&btn_style, LV_STATE_DEFAULT, 12);
 
-    lv_obj_t* startOver_btn = lv_btn_create(home_tab, NULL);
-    lv_obj_set_size(startOver_btn, 100, 38);
+    startOver_btn = lv_btn_create(home_tab, NULL);
+    lv_obj_set_size(startOver_btn, 150, 38);
     lv_obj_set_event_cb(startOver_btn, start_smell_event_handler);
     lv_obj_align(startOver_btn, home_tab, LV_ALIGN_IN_BOTTOM_RIGHT, -20, -14);
-    lv_btn_set_state(startOver_btn, LV_BTN_STATE_CHECKED_PRESSED);
+    lv_btn_set_state(startOver_btn, LV_BTN_STATE_CHECKED_RELEASED);
 
-    lv_obj_t* startSmelling_label = lv_label_create(startOver_btn, NULL);
+    startSmelling_label = lv_label_create(startOver_btn, NULL);
     lv_label_set_static_text(startSmelling_label, "Start");
     
 
@@ -90,10 +92,6 @@ void display_home_tab(lv_obj_t* tv){
 }
 static void start_smell_event_handler(lv_obj_t* obj, lv_event_t event){
   
-     vTaskDelay(pdMS_TO_TICKS(1500)); // FreeRTOS scheduler block execution for 1.5 seconds to keep showing the Powered by AWS logo.
-   
-     unsigned int mSeconds = 5000;
-     usleep(mSeconds);
     // Collect sensor data
 
     // Move to user selection screen
