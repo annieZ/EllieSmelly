@@ -98,9 +98,9 @@ static void kb_event_cb(lv_obj_t * keyboard, lv_event_t e)
     }
     if(e == LV_EVENT_APPLY) {
         // Call back end server and then display received  
-        const char * inputStr = lv_textarea_get_text(ta);
-        if(inputStr != NULL){
-             ESP_LOGI(TAG, "\n\n Read %s: ", inputStr);
+        userInputStr = lv_textarea_get_text(ta);
+        if(userInputStr != NULL){
+             ESP_LOGI(TAG, "\n\n Read %s: ", userInputStr);
             lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);
          }
     }
