@@ -8,3 +8,6 @@
 
 //  User input 
 const char * userInputStr;
+
+// Received label
+lv_obj_t* received_label;
