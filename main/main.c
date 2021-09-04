@@ -1,4 +1,4 @@
-/*
+/* Ellie METER BASED ON :
  * AWS IoT EduKit - Core2 for AWS IoT EduKit
  * Factory Firmware v2.1.2
  * main.c
@@ -50,14 +50,14 @@
 #include "sound.h"
 #include "home.h"
 #include "wifi.h"
-#include "mpu.h"
-#include "mic.h"
-#include "clock.h"
-#include "power.h"
-#include "touch.h"
-#include "led_bar.h"
 #include "crypto.h"
 #include "cta.h"
+
+#include "global.h"
+#include "received.h"
+#include "identified.h"
+#include "keyboard.h"
+#include "selection.h"
 
 static const char* TAG = "MAIN";
 
@@ -123,15 +123,12 @@ static void ui_start(void){
     that read/write to the peripheral registers and displays the data from that peripheral.
     */
     display_home_tab(tab_view);
-    display_clock_tab(tab_view, core2forAWS_obj);
-    display_mpu_tab(tab_view);
-    display_microphone_tab(tab_view);
-    display_LED_bar_tab(tab_view);
-    display_power_tab(tab_view, core2forAWS_obj);
-    display_touch_tab(tab_view);
-    display_crypto_tab(tab_view);
+    display_user_selection_tab(tab_view, core2forAWS_obj);    // index 1
+    display_keyboard_tab(tab_view, core2forAWS_obj);    // index 2
+    display_identified_tab(tab_view, core2forAWS_obj);  // index 3
+    display_received_tab(tab_view, core2forAWS_obj);    //  // index 4
+   
     display_wifi_tab(tab_view);
-    display_cta_tab(tab_view);
 }
 
 static void tab_event_cb(lv_obj_t* slider, lv_event_t event){
@@ -140,39 +137,11 @@ static void tab_event_cb(lv_obj_t* slider, lv_event_t event){
         const char* tab_name = ext->tab_name_ptr[lv_tabview_get_tab_act(tab_view)];
         ESP_LOGI(TAG, "Current Active Tab: %s\n", tab_name);
 
-        vTaskSuspend(MPU_handle);
-        vTaskSuspend(mic_handle);
-        vTaskSuspend(FFT_handle);
+       
         vTaskSuspend(wifi_handle);
-        vTaskSuspend(touch_handle);
-        // vTaskSuspend(led_bar_solid_handle);
-        if( led_bar_solid_handle != NULL )
-        {
-            vTaskSuspend(led_bar_solid_handle);
-            /* Delete using the copy of the handle. */
-            vTaskDelete(led_bar_solid_handle);
-            /* The task is going to be deleted.
-            Set the handle to NULL. */
-            led_bar_solid_handle = NULL;
-        }
-        vTaskResume(led_bar_animation_handle);
         
-        if(strcmp(tab_name, CLOCK_TAB_NAME) == 0)
-            update_roller_time();
-        else if(strcmp(tab_name, MPU_TAB_NAME) == 0)
-            vTaskResume(MPU_handle);
-        else if(strcmp(tab_name, MICROPHONE_TAB_NAME) == 0){
-            vTaskResume(mic_handle);
-            vTaskResume(FFT_handle);
-        } else if (strcmp(tab_name, LED_BAR_TAB_NAME) == 0){
-            vTaskSuspend(led_bar_animation_handle);
-            xTaskCreatePinnedToCore(sk6812_solid_task, "sk6812SolidTask", configMINIMAL_STACK_SIZE * 3, NULL, 0, &led_bar_solid_handle, 1);
-        }
-        else if(strcmp(tab_name, TOUCH_TAB_NAME) == 0){
-            reset_touch_bg();
-            vTaskResume(touch_handle);
-        }
-        else if(strcmp(tab_name, WIFI_TAB_NAME) == 0)
+        
+       if(strcmp(tab_name, WIFI_TAB_NAME) == 0)
             vTaskResume(wifi_handle);
     }
 }
