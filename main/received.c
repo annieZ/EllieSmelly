@@ -94,9 +94,19 @@ void display_received_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
    // xTaskCreatePinnedToCore(received_task, "receivedTask", configMINIMAL_STACK_SIZE * 2, (void*) core2forAWS_screen_obj, 0, &received_handle, 1);
 }
 
-static void update_received_label(){
-    const char* receivedMessage = "Sample received!\n\n I have now # of samples of the same kind. \nThe more I have the better matches I can make";
-   
+void update_received_label(){
+    ESP_LOGI(TAG, "updating label");
+    const char* receivedMessage = "Sample received!\n\n I have now # of samples of the same kind. \nThe more I have the better matches I can make";  
+    if (userInputStr != NULL){
+        ESP_LOGI(TAG, "Input : %s",userInputStr);
+        char tempMessage[200];
+        sprintf(tempMessage, 
+         "Sample received!\n\n I have now # of samples of %s. \nThe more I have the better matches I can make",
+         userInputStr);
+         char *p = tempMessage;
+         receivedMessage = p;
+    }
+    ESP_LOGI(TAG, "Combined: %s", receivedMessage);
     lv_label_set_static_text(received_label, receivedMessage);
    
 }

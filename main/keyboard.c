@@ -35,6 +35,7 @@
 #include "core2forAWS.h"
 #include "global.h"
 #include "keyboard.h"
+#include "received.h"
 
 lv_obj_t* tabview;
 lv_obj_t* keyboard_tab;
@@ -78,7 +79,7 @@ void display_keyboard_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
     lv_obj_set_event_cb(ta, ta_event_cb);
     lv_textarea_set_text(ta, "");
    
-    //kb_create();
+    kb_create();
 
   
     xSemaphoreGive(xGuiSemaphore);
@@ -98,16 +99,18 @@ static void kb_event_cb(lv_obj_t * keyboard, lv_event_t e)
     }
     if(e == LV_EVENT_APPLY) {
         // Call back end server and then display received  
-        userInputStr = lv_textarea_get_text(ta);
-        if(userInputStr != NULL){
-             ESP_LOGI(TAG, "\n\n Read %s: ", userInputStr);
-            lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);
+        userInputStr = lv_textarea_get_text(ta);        
+        lv_textarea_set_text(ta, "");
+        if(userInputStr != NULL){           
+            ESP_LOGI(TAG, "\n\n Read %s: ", userInputStr);
+            lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);  
          }
     }
 }
 
 static void kb_create(void)
 {
+    userInputStr=NULL;
     kb = lv_keyboard_create(keyboard_tab, NULL);
     lv_keyboard_set_cursor_manage(kb, true);
     lv_obj_set_event_cb(kb, kb_event_cb);
