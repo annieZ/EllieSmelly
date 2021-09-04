@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -61,7 +62,7 @@ void display_home_tab(lv_obj_t* tv){
 
     lv_obj_t* body_label = lv_label_create(home_tab, NULL);
     lv_label_set_long_mode(body_label, LV_LABEL_LONG_BREAK);
-    lv_label_set_static_text(body_label, "I can help identify a smell or you can help me build a collection of smells for other to use as  a reference. \n\n Tap to start smelling");
+    lv_label_set_static_text(body_label, "I can help identify a smell or you can help me build a collection of smells for other to use as  a reference. \n\n Tap to start smelling, I will take 30 seconds to smell around :)");
     lv_obj_set_width(body_label, 280);
     lv_obj_align(body_label, home_tab, LV_ALIGN_CENTER, 0 , 10);
 
@@ -88,7 +89,11 @@ void display_home_tab(lv_obj_t* tv){
     ESP_LOGI(TAG, "\n\n Ellie smelly start page.\n\n");
 }
 static void start_smell_event_handler(lv_obj_t* obj, lv_event_t event){
-    // Sleep
+  
+     vTaskDelay(pdMS_TO_TICKS(1500)); // FreeRTOS scheduler block execution for 1.5 seconds to keep showing the Powered by AWS logo.
+   
+     unsigned int mSeconds = 5000;
+     usleep(mSeconds);
     // Collect sensor data
 
     // Move to user selection screen

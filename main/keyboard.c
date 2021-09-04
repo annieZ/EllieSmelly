@@ -40,6 +40,7 @@ lv_obj_t* tabview;
 lv_obj_t* keyboard_tab;
 static lv_obj_t * kb;
 static lv_obj_t * ta;
+static const char* TAG = KEYBOARD_TAB_NAME;
 
 void display_keyboard_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
     xSemaphoreTake(xGuiSemaphore, portMAX_DELAY);
@@ -72,11 +73,12 @@ void display_keyboard_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
        /*Create a text area. The keyboard will write here*/
     ta  = lv_textarea_create(keyboard_tab, NULL);
     lv_textarea_set_one_line(ta, true);
+    lv_textarea_set_max_length(ta, 20);
     lv_obj_align(ta, tab_title_label, LV_ALIGN_CENTER, 0 , 10);
     lv_obj_set_event_cb(ta, ta_event_cb);
     lv_textarea_set_text(ta, "");
    
-    kb_create();
+    //kb_create();
 
   
     xSemaphoreGive(xGuiSemaphore);
@@ -95,8 +97,12 @@ static void kb_event_cb(lv_obj_t * keyboard, lv_event_t e)
         lv_tabview_set_tab_act(tabview, 0, LV_ANIM_OFF);
     }
     if(e == LV_EVENT_APPLY) {
-        // Call back end server and then display received
-        lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);
+        // Call back end server and then display received  
+        const char * inputStr = lv_event_get_data(); 
+        if(inputStr != NULL){
+             ESP_LOGI(TAG, "\n\n Read %s: ", inputStr);
+            lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);
+         }
     }
 }
 
