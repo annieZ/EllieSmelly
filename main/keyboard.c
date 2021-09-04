@@ -102,7 +102,7 @@ static void kb_event_cb(lv_obj_t * keyboard, lv_event_t e)
         userInputStr = lv_textarea_get_text(ta);        
         lv_textarea_set_text(ta, "");
         if(userInputStr != NULL){           
-            ESP_LOGI(TAG, "\n\n Read %s: ", userInputStr);
+            ESP_LOGI(TAG, "\n\n Read %s: ", userInputStr); 
             lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);  
          }
     }

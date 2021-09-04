@@ -52,7 +52,7 @@ void display_received_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
 
     /* Create the main body object and set background within the tab*/
     static lv_style_t bg_style;
-    lv_obj_t* received_bg = lv_obj_create(received_tab, NULL);
+    received_bg = lv_obj_create(received_tab, NULL);
     lv_obj_align(received_bg, NULL, LV_ALIGN_IN_TOP_LEFT, 16, 36);
     lv_obj_set_size(received_bg, 290, 190);
     lv_obj_set_click(received_bg, false);

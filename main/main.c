@@ -144,5 +144,7 @@ static void tab_event_cb(lv_obj_t* slider, lv_event_t event){
         
        if(strcmp(tab_name, WIFI_TAB_NAME) == 0)
             vTaskResume(wifi_handle);
+        else if(strcmp(tab_name, SAMPLE_RECEIVED_TAB_NAME) == 0)
+            update_received_label();
     }
 }
