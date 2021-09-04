@@ -51,7 +51,6 @@
 #include "home.h"
 #include "wifi.h"
 #include "mpu.h"
-#include "mic.h"
 #include "clock.h"
 #include "power.h"
 #include "touch.h"
@@ -136,7 +135,6 @@ static void ui_start(void){
    
     display_clock_tab(tab_view, core2forAWS_obj);
     display_mpu_tab(tab_view);
-    display_microphone_tab(tab_view);
     display_LED_bar_tab(tab_view);
     display_power_tab(tab_view, core2forAWS_obj);
     display_touch_tab(tab_view);
@@ -152,8 +150,6 @@ static void tab_event_cb(lv_obj_t* slider, lv_event_t event){
         ESP_LOGI(TAG, "Current Active Tab: %s\n", tab_name);
 
         vTaskSuspend(MPU_handle);
-        vTaskSuspend(mic_handle);
-        vTaskSuspend(FFT_handle);
         vTaskSuspend(wifi_handle);
         vTaskSuspend(touch_handle);
         // vTaskSuspend(led_bar_solid_handle);
@@ -172,10 +168,7 @@ static void tab_event_cb(lv_obj_t* slider, lv_event_t event){
             update_roller_time();
         else if(strcmp(tab_name, MPU_TAB_NAME) == 0)
             vTaskResume(MPU_handle);
-        else if(strcmp(tab_name, MICROPHONE_TAB_NAME) == 0){
-            vTaskResume(mic_handle);
-            vTaskResume(FFT_handle);
-        } else if (strcmp(tab_name, LED_BAR_TAB_NAME) == 0){
+        else if (strcmp(tab_name, LED_BAR_TAB_NAME) == 0){
             vTaskSuspend(led_bar_animation_handle);
             xTaskCreatePinnedToCore(sk6812_solid_task, "sk6812SolidTask", configMINIMAL_STACK_SIZE * 3, NULL, 0, &led_bar_solid_handle, 1);
         }
