@@ -9,6 +9,10 @@
 //  User input 
 const char * userInputStr;
 
+// Sensor input
+const  char * tvoc;
+const  char * eCO2;
+
 // Received label
 lv_obj_t* received_label;
 lv_obj_t* received_bg;

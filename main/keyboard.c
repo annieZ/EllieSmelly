@@ -104,7 +104,23 @@ static void kb_event_cb(lv_obj_t * keyboard, lv_event_t e)
         lv_textarea_set_text(ta, "");
         if(userInputStr != NULL){           
             ESP_LOGI(TAG, "\n\n Read %s: ", userInputStr); 
-            lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);  
+            lv_tabview_set_tab_act(tabview, 4, LV_ANIM_OFF);
+            /// TODO verify http client
+            /* 
+            const char* path = "/submitSample/";
+            strcat(path,userInputStr );
+            strcat(path, "/");
+            if (tvoc != NULL)
+                strcat(path, tvoc);
+            if (eCO2 != NULL){                
+               strcat(path, "/");
+               strcat(path, eCO2);
+            }
+            
+            ESP_LOGI(TAG, "\n\n Sending sample to  %s: ", path); 
+            sendReceiveEllieSample("POST",path);
+            */
+
          }
     }
 }
