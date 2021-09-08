@@ -36,7 +36,7 @@
 
 #include "global.h"
 #include "identified.h"
-
+#include "core_http_config.h"
 
 
 static void start_over_event_handler(lv_obj_t* slider, lv_event_t event);

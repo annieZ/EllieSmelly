@@ -197,4 +197,6 @@ void disconnect( Socket_t tcpSocket );
 
 static void prvHTTPTask( const char * pcMethod,  const char * pcPath);
 
+static void sendReceiveEllieSample( const char * pcMethod,  const char * pcPath);
+
 #endif /* ifndef HTTPCLIENT_CONFIG_H */

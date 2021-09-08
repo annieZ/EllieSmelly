@@ -36,6 +36,7 @@
 #include "global.h"
 #include "keyboard.h"
 #include "received.h"
+#include "core_http_config.h"
 
 lv_obj_t* tabview;
 lv_obj_t* keyboard_tab;
