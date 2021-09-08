@@ -192,12 +192,10 @@ static uint8_t ucUserBuffer[ configUSER_BUFFER_LENGTH ];
 /*-----------------------------------------------------------*/
 
 /**
- * @brief The task used to nstrate the HTTP API.
+ * @brief The task used send receive samples back end
  *
- * @param[in] pvParameters Parameters as passed at the time of task creation. Not
- * used in this example.
  */
-static void prvHTTPTask( void * pvParameters );
+static void sendReceiveEllieSample( const char * pcMethod,  const char * pcPath);
 
 
 /**
@@ -229,22 +227,6 @@ static BaseType_t prvSendHttpRequest( const TransportInterface_t * pxTransportIn
 
 /*-----------------------------------------------------------*/
 
-/*
- * @brief Create the task that nstrates the HTTP API  over a
- * mutually-authenticated network connection with an HTTP server.
- */
-void vStartSimpleHTTP( void )
-{
-    /* This example uses a single application task, which in turn is used to
-     * connect, send requests, receive responses, and disconnect from the HTTP
-     * server */
-    xTaskCreate( prvHTTPTask,          /* Function that implements the task. */
-                 "HTTPCLIEnT",               /* Text name for the task - only used for debugging. */
-                 democonfigDEMO_STACKSIZE, /* Size of stack (in words, not bytes) to allocate for the task. */
-                 NULL,                     /* Task parameter - not used in this case. */
-                 tskIDLE_PRIORITY,         /* Task priority, must be between 0 and configMAX_PRIORITIES - 1. */
-                 NULL );                   /* Used to pass out a handle to the created task - not used in this case. */
-}
 
 /*-----------------------------------------------------------*/
 
@@ -260,7 +242,7 @@ void vStartSimpleHTTP( void )
  * @note This example uses a single task.
  *
  */
-static void prvHTTPTask( void * pvParameters )
+static void sendReceiveEllieSample( const char * pcMethod,  const char * pcPath)
 {
     /* The transport layer interface used by the HTTP Client library. */
     TransportInterface_t xTransportInterface;
@@ -284,10 +266,7 @@ static void prvHTTPTask( void * pvParameters )
     /* The user of this  must check the logs for any failure codes. */
     BaseType_t xStatus = pdPASS;
 
-    /* Remove compiler warnings about unused parameters. */
-    ( void ) pvParameters;
-
-    /* Set the pParams member of the network context with desired transport. */
+     /* Set the pParams member of the network context with desired transport. */
     xNetworkContext.pParams = &xPlaintextTransportParams;
 
         /**************************** Connect. ******************************/
@@ -325,10 +304,10 @@ static void prvHTTPTask( void * pvParameters )
             if( xStatus == pdPASS )
             {
                 xStatus = prvSendHttpRequest( &xTransportInterface,
-                                                  xHttpMethods[ uxHttpPathCount ].pcHttpMethod,
-                                                  xHttpMethods[ uxHttpPathCount ].ulHttpMethodLength,
-                                                  xHttpMethodPaths[ uxHttpPathCount ].pcHttpPath,
-                                                  xHttpMethodPaths[ uxHttpPathCount ].ulHttpPathLength );
+                                                  pcMethod,
+                                                  sizeof (pcMethod),
+                                                  pcPath,
+                                                  sizeof (pcPath));
             }
             
         

@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := AWS_IoT_EduKit-Factory_Firmware
+PROJECT_NAME := AWS_IoT_EduKit-EllieSmelly
 PROJECT_VER := 2.1.1
 
 include $(IDF_PATH)/make/project.mk

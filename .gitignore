@@ -2,7 +2,7 @@
 **/.pio/build/*
 **/.vscode
 **/.DS_Store
-
+.pio
 **/build
 **/sdkconfig
 **/sdkconfig.old

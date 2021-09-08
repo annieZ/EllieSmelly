@@ -195,4 +195,6 @@ static int32_t sendHttpRequest( const TransportInterface_t * pTransportInterface
 int setupHttpConnection();
 void disconnect( Socket_t tcpSocket );
 
+static void prvHTTPTask( const char * pcMethod,  const char * pcPath);
+
 #endif /* ifndef HTTPCLIENT_CONFIG_H */
