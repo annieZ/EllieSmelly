@@ -30,3 +30,4 @@ TaskHandle_t received_handle;
 
 void display_received_tab();
 void received_task(void* pvParameters);
+void update_received_label();

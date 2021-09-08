@@ -52,7 +52,7 @@ void display_received_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
 
     /* Create the main body object and set background within the tab*/
     static lv_style_t bg_style;
-    lv_obj_t* received_bg = lv_obj_create(received_tab, NULL);
+    received_bg = lv_obj_create(received_tab, NULL);
     lv_obj_align(received_bg, NULL, LV_ALIGN_IN_TOP_LEFT, 16, 36);
     lv_obj_set_size(received_bg, 290, 190);
     lv_obj_set_click(received_bg, false);
@@ -61,16 +61,16 @@ void display_received_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
     lv_obj_add_style(received_bg, LV_OBJ_PART_MAIN, &bg_style);
  
  /* Create the sensor information label object */
-    lv_obj_t* body_label = lv_label_create(received_bg, NULL);
-    lv_label_set_long_mode(body_label, LV_LABEL_LONG_BREAK);
-    lv_label_set_static_text(body_label, "Sample received!\n\n I have now # of samples of the same kind. \nThe more I have the better matches I can make");
-    lv_obj_set_width(body_label, 252);
-    lv_obj_align(body_label, received_bg, LV_ALIGN_IN_TOP_LEFT, 0, 10);
+    received_label = lv_label_create(received_bg, NULL);
+    lv_label_set_long_mode(received_label, LV_LABEL_LONG_BREAK);
+    update_received_label();
+    lv_obj_set_width(received_label, 252);
+    lv_obj_align(received_label, received_bg, LV_ALIGN_IN_TOP_LEFT, 0, 10);
 
     static lv_style_t body_style;
     lv_style_init(&body_style);
     lv_style_set_text_color(&body_style, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-    lv_obj_add_style(body_label, LV_OBJ_PART_MAIN, &body_style);
+    lv_obj_add_style(received_label, LV_OBJ_PART_MAIN, &body_style);
 
     /* Create the sensor information label object */
     static lv_style_t btn_style;
@@ -94,6 +94,22 @@ void display_received_tab(lv_obj_t* tv, lv_obj_t* core2forAWS_screen_obj){
    // xTaskCreatePinnedToCore(received_task, "receivedTask", configMINIMAL_STACK_SIZE * 2, (void*) core2forAWS_screen_obj, 0, &received_handle, 1);
 }
 
+void update_received_label(){
+    ESP_LOGI(TAG, "updating label");
+    const char* receivedMessage = "Sample received!\n\n I have now # of samples of the same kind. \nThe more I have the better matches I can make";  
+    if (userInputStr != NULL){
+        ESP_LOGI(TAG, "Input : %s",userInputStr);
+        char tempMessage[200];
+        sprintf(tempMessage, 
+         "Sample received!\n\n I have now # of samples of %s. \nThe more I have the better matches I can make",
+         userInputStr);
+         char *p = tempMessage;
+         receivedMessage = p;
+    }
+    ESP_LOGI(TAG, "Combined: %s", receivedMessage);
+    lv_label_set_static_text(received_label, receivedMessage);
+   
+}
 static void start_over_event_handler(lv_obj_t* obj, lv_event_t event){
     
     ESP_LOGI(TAG, "Star over selected");
@@ -102,22 +118,3 @@ static void start_over_event_handler(lv_obj_t* obj, lv_event_t event){
 }
 
 
-
-
-void received_task(void* pvParameters){
-    xSemaphoreTake(xGuiSemaphore, portMAX_DELAY);
-    lv_obj_t* battery_label = lv_label_create((lv_obj_t*)pvParameters, NULL);
-    lv_label_set_text(battery_label, LV_SYMBOL_BATTERY_FULL);
-    lv_label_set_recolor(battery_label, true);
-    lv_label_set_align(battery_label, LV_LABEL_ALIGN_CENTER);
-    lv_obj_align(battery_label, (lv_obj_t*)pvParameters, LV_ALIGN_IN_TOP_RIGHT, -20, 10);
-    lv_obj_t* charge_label = lv_label_create(battery_label, NULL);
-    lv_label_set_recolor(charge_label, true);
-    lv_label_set_text(charge_label, "");
-    lv_obj_align(charge_label, battery_label, LV_ALIGN_CENTER, -4, 0);
-    xSemaphoreGive(xGuiSemaphore);
-
-
-
-    vTaskDelete(NULL); // Should never get to here...
-}
