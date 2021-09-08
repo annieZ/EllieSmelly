@@ -148,6 +148,15 @@
                 "C:/Users/annie.DESKTOP-EEPHQGA/.platformio/packages/framework-espidf/components/wifi_provisioning/include",
                 "D:/annie/aws-edu/front-end/EllieV2/components/fft",
                 "D:/annie/aws-edu/front-end/EllieV2/main/includes",
+                "D:/annie/aws-edu/front-end/EllieV2/main/corehttp/include",
+                "D:/annie/aws-edu/front-end/EllieV2/main/corehttp/interface",
+                "D:/annie/aws-edu/front-end/EllieV2/main/Common",
+                "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include",
+                "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS-Plus/Source/Utilities/backoff_algorithm/source/include",
+                "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS/Source/include",
+                "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS/Test/CBMC/patches",
+                "D:/annie/aws-edu/front-end/EllieV2/.pio/libdeps/core2foraws/FreeRTOS/src",
+                "D:/annie/aws-edu/front-end/EllieV2/.pio/libdeps/core2foraws/Adafruit SGP30 Sensor",
                 ""
             ],
             "browse": {
@@ -293,6 +302,15 @@
                     "C:/Users/annie.DESKTOP-EEPHQGA/.platformio/packages/framework-espidf/components/wifi_provisioning/include",
                     "D:/annie/aws-edu/front-end/EllieV2/components/fft",
                     "D:/annie/aws-edu/front-end/EllieV2/main/includes",
+                    "D:/annie/aws-edu/front-end/EllieV2/main/corehttp/include",
+                    "D:/annie/aws-edu/front-end/EllieV2/main/corehttp/interface",
+                    "D:/annie/aws-edu/front-end/EllieV2/main/Common",
+                    "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS-Plus/Source/FreeRTOS-Plus-TCP/include",
+                    "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS-Plus/Source/Utilities/backoff_algorithm/source/include",
+                    "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS/Source/include",
+                    "D:/annie/aws-edu/freertos/FreeRTOS/FreeRTOS/Test/CBMC/patches",
+                    "D:/annie/aws-edu/front-end/EllieV2/.pio/libdeps/core2foraws/FreeRTOS/src",
+                    "D:/annie/aws-edu/front-end/EllieV2/.pio/libdeps/core2foraws/Adafruit SGP30 Sensor",
                     ""
                 ]
             },
