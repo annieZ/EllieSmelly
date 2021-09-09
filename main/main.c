@@ -88,6 +88,9 @@ void app_main(void)
     Core2ForAWS_Display_SetBrightness(80); // Last since the display first needs time to finish initializing.
     
     ui_start();
+
+    xTaskCreatePinnedToCore(&aws_sgp30_task, "aws_sgp30_task", 4096*2, NULL, 5, NULL, 1);
+
 }
 
 static void ui_start(void){
